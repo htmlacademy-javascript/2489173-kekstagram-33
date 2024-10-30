@@ -1,6 +1,6 @@
-const checkStringLength = (string,maxLength) => {
+function checkStringLength (string,maxLength) {
   return string.length <= maxLength;
-};
+}
 
 checkStringLength(20,18);
 
