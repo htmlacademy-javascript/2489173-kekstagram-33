@@ -1,8 +1,5 @@
 const checkStringLength = (string,maxLength) => {
-  if(string.length <= maxLength) {
-    return true;
-  }
-  return false;
+  return string.length <= maxLength;
 };
 
 checkStringLength(20,18);
@@ -10,9 +7,7 @@ checkStringLength(20,18);
 function checkStringpalindron(string) {
   string = string.toUpperCase().replaceAll(' ', '');
   const reversed = string.split('').reverse('').join('');
-  if(string === reversed) {
-    return (true);
-  } return (false);
+  return string === reversed;
 }
 // Строка является палиндромом
 checkStringpalindron('топот'); // true
