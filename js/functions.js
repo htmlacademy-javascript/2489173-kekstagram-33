@@ -4,6 +4,7 @@ function checkStringLength (string,maxLength) {
 
 checkStringLength(20,18);
 
+
 function checkStringpalindron(string) {
   string = string.toUpperCase().replaceAll(' ', '');
   const reversed = string.split('').reverse('').join('');
