@@ -12,10 +12,6 @@ const checkWorkingHours = (startOfTheworkingDay,endOfTheWorkingDay,startTimeOfTh
     return 'Встреча не может быть назначена раньше начало рабочего дня';
   }
 
-  // if(endOfTheWorkingDayMinutes < startTimeOfTheMeetingMinutes + durationOfTheMeeting) {
-  //   return false;
-  // }return true;
-
   return endOfTheWorkingDayMinutes > (startTimeOfTheMeetingMinutes + durationOfTheMeeting);
 
 };
