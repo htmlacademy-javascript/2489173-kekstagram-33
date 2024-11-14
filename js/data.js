@@ -68,6 +68,5 @@ const getPictures = () =>
   Array.from({ length: PHOTO_DESCRIPTION_ARRAY_LENGTH }, (_, pictureIndex) =>
     createPicture(pictureIndex + 1)
   );
-
 getPictures();
 export {getPictures};

@@ -15,6 +15,9 @@ const checkWorkingHours = (startOfTheworkingDay,endOfTheWorkingDay,startTimeOfTh
   if(endOfTheWorkingDayMinutes < startTimeOfTheMeetingMinutes + durationOfTheMeeting) {
     return false;
   }return true;
+
+  // return  endOfTheWorkingDayMinutes < startTimeOfTheMeetingMinutes + durationOfTheMeeting;
+
 };
 checkWorkingHours('8:0', '10:0', '8:0', 120);
 
