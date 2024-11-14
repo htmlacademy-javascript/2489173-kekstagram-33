@@ -12,11 +12,10 @@ const checkWorkingHours = (startOfTheworkingDay,endOfTheWorkingDay,startTimeOfTh
     return 'Встреча не может быть назначена раньше начало рабочего дня';
   }
 
-  if(endOfTheWorkingDayMinutes < startTimeOfTheMeetingMinutes + durationOfTheMeeting) {
-    return false;
-  }return true;
+  return endOfTheWorkingDayMinutes > (startTimeOfTheMeetingMinutes + durationOfTheMeeting);
+
 };
-checkWorkingHours('8:0', '10:0', '8:0', 120);
+checkWorkingHours('8:00', '17:30', '08:00', 900);
 
 // имяФункции('08:00', '17:30', '14:00', 90); // true
 // имяФункции('8:0', '10:0', '8:0', 120);     // true
