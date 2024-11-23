@@ -38,7 +38,7 @@ const LIKES_IN_THE_LIMIT = {
 
 const COMENTS_IN_THE_LIMIT = {
   min : 0,
-  max: 6
+  max: 15
 };
 
 const createMessage = () =>

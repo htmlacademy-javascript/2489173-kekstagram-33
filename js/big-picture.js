@@ -61,7 +61,7 @@ const onCancelButtonClick = () => {
   hideBigPicture();
 };
 
-const onCommentsLoaderClick = () => renderComments();
+// const onCommentsLoaderClick = () => renderComments();
 
 const renderPictureDetails = ({ url, likes, description }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
@@ -84,6 +84,7 @@ const showBigPicture = (data) => {
 };
 
 cancelButton.addEventListener('click', onCancelButtonClick);
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
+// commentsLoader.addEventListener('click', onCommentsLoaderClick);
+commentsLoader.addEventListener('click', renderComments);
 
 export { showBigPicture };
