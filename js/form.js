@@ -1,3 +1,7 @@
+import { resetScale } from './scale-image';
+import { resetEffects } from './effect-image';
+
+
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -5,6 +9,7 @@ const cancelButton = document.querySelector('#upload-cancel');
 const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -22,6 +27,8 @@ const showModalWindow = () => {
 const hideModalWindow = () => {
   form.reset();
   pristine.reset();
+  resetScale();
+  resetEffects();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
@@ -78,13 +85,19 @@ pristine.addValidator(
 
 const maxСommentFieldLength = 140;
 const validateComment = (value) => value.length < maxСommentFieldLength;
-pristine.addValidator(commentField, validateComment, `Длина комментария не должна быть больше ${maxСommentFieldLength} символов`);
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
+pristine.addValidator(
+  commentField,
+  validateComment,
+  `Длина комментария не должна быть больше ${maxСommentFieldLength} символов`
+);
+
+// const onFormSubmit = (evt) => {
+//   evt.preventDefault();
+//   pristine.validate();
+// };
 
 fileField.addEventListener('change', showModalWindow);
 cancelButton.addEventListener('click', hideModalWindow);
-form.addEventListener('submit', onFormSubmit);
+form.addEventListener('submit', pristine.validate);
+// form.addEventListener('submit', onFormSubmit());
