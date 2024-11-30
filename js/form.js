@@ -9,6 +9,7 @@ const cancelButton = document.querySelector('#upload-cancel');
 const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const submitButton = formElement.querySelector('.img-upload__submit');
 
 
 const pristine = new Pristine(formElement, {
@@ -44,6 +45,14 @@ function onEscKeyDown(evt) {
     hideModalWindow();
   }
 }
+
+const onCancelButtonClick = () => {
+  hideModalWindow();
+};
+
+const onFileInputChange = () => {
+  showModalWindow();
+};
 
 //Валидации формы
 const MAX_HASHTAG_COUNT = 5;
@@ -124,6 +133,16 @@ pristine.addValidator(
   'Введён невалидный хэштег'
 );
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправляю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
 const maxСommentFieldLength = 140;
 const validateComment = (value) => value.length < maxСommentFieldLength;
 
@@ -133,12 +152,27 @@ pristine.addValidator(
   `Длина комментария больше ${maxСommentFieldLength} символов`
 );
 
+const setOnFormSubmit = (cb) => {
+  formElement.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      blockSubmitButton();
+      await cb(new FormData(formElement));
+      unblockSubmitButton();
+    }
+  });
+};
+
 // const onFormSubmit = (evt) => {
 //   evt.preventDefault();
 //   pristine.validate();
 // };
 
-fileField.addEventListener('change', showModalWindow);
-cancelButton.addEventListener('click', hideModalWindow);
-formElement.addEventListener('submit', pristine.validate);
+fileField.addEventListener('change', onFileInputChange);
+cancelButton.addEventListener('click', onCancelButtonClick);
+// formElement.addEventListener('submit', pristine.validate);
 // form.addEventListener('submit', onFormSubmit());
+
+export { setOnFormSubmit, hideModalWindow };
