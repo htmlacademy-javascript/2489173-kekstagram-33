@@ -1,15 +1,23 @@
 import { resetScale } from './scale-image';
 import { resetEffects } from './effect-image';
 
-
 const formElement = document.querySelector('.img-upload__form');
 const overlayElement = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
-const cancelButton = document.querySelector('#upload-cancel');
-const fileField = document.querySelector('#upload-file');
+const cancelButton = document.querySelector('.img-upload__cancel');
+const fileField = document.querySelector('.img-upload__input');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const submitButton = formElement.querySelector('.img-upload__submit');
+const photoPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
+
+const MAX_HASHTAG_COUNT = 5;
+const MIN_HASHTAG_LENGTH = 2;
+const MAX_HASHTAG_LENGTH = 20;
+const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
+const maxСommentFieldLength = 140;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 
 const pristine = new Pristine(formElement, {
@@ -27,9 +35,9 @@ const showModalWindow = () => {
 
 const hideModalWindow = () => {
   formElement.reset();
-  pristine.reset();
   resetScale();
   resetEffects();
+  pristine.reset();
   overlayElement.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
@@ -46,21 +54,27 @@ function onEscKeyDown(evt) {
   }
 }
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
 const onCancelButtonClick = () => {
   hideModalWindow();
 };
 
 const onFileInputChange = () => {
+  const file = fileField.files[0];
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   showModalWindow();
 };
 
 //Валидации формы
-const MAX_HASHTAG_COUNT = 5;
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 20;
-const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
-
-
 const startsWithHash = (string) => string[0] === '#';
 
 const hasValidLength = (string) =>
@@ -143,7 +157,6 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const maxСommentFieldLength = 140;
 const validateComment = (value) => value.length < maxСommentFieldLength;
 
 pristine.addValidator(
