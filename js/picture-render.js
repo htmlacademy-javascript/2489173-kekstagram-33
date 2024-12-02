@@ -18,11 +18,13 @@ const createPicture = (data) => {
 };
 
 const renderPictures = (pictures) => {
+  picturesContainer.querySelectorAll('.picture').forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const pictureElement = createPicture(picture);
     fragment.append(pictureElement);
   });
+
   picturesContainer.append(fragment);
 };
 

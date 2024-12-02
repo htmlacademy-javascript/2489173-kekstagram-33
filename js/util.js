@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+const DEBOUNCE_TIME = 500;
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -32,9 +33,18 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const debounce = (callback, timeoutDelay = DEBOUNCE_TIME) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {
   getRandomPositiveInteger,
   checkStringLength,
   getRandomArrayElement,
   showAlert,
+  debounce
 };
