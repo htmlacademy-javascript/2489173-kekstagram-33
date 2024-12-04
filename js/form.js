@@ -19,6 +19,13 @@ const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
 const maxСommentFieldLength = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
+const ErrorMessage = {
+  HASHTAG_COUNT: 'Превышено количество хэштегов',
+  DUPLICATE_HASHTAGS: 'Хэштеги повторяются',
+  INVALID_HASHTAG: 'Введён невалидный хэштег',
+  MAX_LENGTH_COMMENTS: `Длина комментария больше ${maxСommentFieldLength} символов`
+};
+
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -116,7 +123,7 @@ const validateTagsHasValidCount = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsHasValidCount,
-  'Превышено количество хэштегов'
+  ErrorMessage.HASHTAG_COUNT
 );
 
 const validateTagsHasUniqueTags = (value) => {
@@ -130,7 +137,7 @@ const validateTagsHasUniqueTags = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsHasUniqueTags,
-  'Хэштеги повторяются'
+  ErrorMessage.DUPLICATE_HASHTAGS
 );
 
 const validateTagsIsValidTag = (value) => {
@@ -144,7 +151,7 @@ const validateTagsIsValidTag = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsIsValidTag,
-  'Введён невалидный хэштег'
+  ErrorMessage.INVALID_HASHTAG
 );
 
 const blockSubmitButton = () => {
@@ -162,7 +169,7 @@ const validateComment = (value) => value.length < maxСommentFieldLength;
 pristine.addValidator(
   commentField,
   validateComment,
-  `Длина комментария больше ${maxСommentFieldLength} символов`
+  ErrorMessage.DUPLICATE_HASHTAGS
 );
 
 const setOnFormSubmit = (cb) => {
