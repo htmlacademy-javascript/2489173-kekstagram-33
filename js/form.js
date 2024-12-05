@@ -169,7 +169,7 @@ const validateComment = (value) => value.length < maxСommentFieldLength;
 pristine.addValidator(
   commentField,
   validateComment,
-  ErrorMessage.DUPLICATE_HASHTAGS
+  ErrorMessage.MAX_LENGTH_COMMENTS
 );
 
 const setOnFormSubmit = (cb) => {
