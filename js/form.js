@@ -98,20 +98,6 @@ const hasUniqueTags = (tags) => {
   const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
-
-// const validateTags = (value) => {
-//   const tags = value
-//     .trim()
-//     .split(' ')
-//     .filter((tag) => tag.trim().length);
-//   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
-// };
-// pristine.addValidator(
-//   hashtagField,
-//   validateTags,
-//   'Неправильно заполнены хэштеги'
-// );
-
 const validateTagsHasValidCount = (value) => {
   const tags = value
     .trim()
@@ -185,14 +171,7 @@ const setOnFormSubmit = (cb) => {
   });
 };
 
-// const onFormSubmit = (evt) => {
-//   evt.preventDefault();
-//   pristine.validate();
-// };
-
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
-// formElement.addEventListener('submit', pristine.validate);
-// form.addEventListener('submit', onFormSubmit());
 
 export { setOnFormSubmit, hideModalWindow };
