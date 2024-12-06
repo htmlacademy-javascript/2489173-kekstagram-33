@@ -19,6 +19,13 @@ const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
 const maxСommentFieldLength = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
+const ErrorMessage = {
+  HASHTAG_COUNT: 'Превышено количество хэштегов',
+  DUPLICATE_HASHTAGS: 'Хэштеги повторяются',
+  INVALID_HASHTAG: 'Введён невалидный хэштег',
+  MAX_LENGTH_COMMENTS: `Длина комментария больше ${maxСommentFieldLength} символов`
+};
+
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -91,20 +98,6 @@ const hasUniqueTags = (tags) => {
   const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
-
-// const validateTags = (value) => {
-//   const tags = value
-//     .trim()
-//     .split(' ')
-//     .filter((tag) => tag.trim().length);
-//   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
-// };
-// pristine.addValidator(
-//   hashtagField,
-//   validateTags,
-//   'Неправильно заполнены хэштеги'
-// );
-
 const validateTagsHasValidCount = (value) => {
   const tags = value
     .trim()
@@ -116,7 +109,7 @@ const validateTagsHasValidCount = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsHasValidCount,
-  'Превышено количество хэштегов'
+  ErrorMessage.HASHTAG_COUNT
 );
 
 const validateTagsHasUniqueTags = (value) => {
@@ -130,7 +123,7 @@ const validateTagsHasUniqueTags = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsHasUniqueTags,
-  'Хэштеги повторяются'
+  ErrorMessage.DUPLICATE_HASHTAGS
 );
 
 const validateTagsIsValidTag = (value) => {
@@ -144,7 +137,7 @@ const validateTagsIsValidTag = (value) => {
 pristine.addValidator(
   hashtagField,
   validateTagsIsValidTag,
-  'Введён невалидный хэштег'
+  ErrorMessage.INVALID_HASHTAG
 );
 
 const blockSubmitButton = () => {
@@ -162,7 +155,7 @@ const validateComment = (value) => value.length < maxСommentFieldLength;
 pristine.addValidator(
   commentField,
   validateComment,
-  `Длина комментария больше ${maxСommentFieldLength} символов`
+  ErrorMessage.MAX_LENGTH_COMMENTS
 );
 
 const setOnFormSubmit = (cb) => {
@@ -178,14 +171,7 @@ const setOnFormSubmit = (cb) => {
   });
 };
 
-// const onFormSubmit = (evt) => {
-//   evt.preventDefault();
-//   pristine.validate();
-// };
-
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
-// formElement.addEventListener('submit', pristine.validate);
-// form.addEventListener('submit', onFormSubmit());
 
 export { setOnFormSubmit, hideModalWindow };
