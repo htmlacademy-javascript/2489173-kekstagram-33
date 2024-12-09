@@ -13,9 +13,7 @@ const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 const MAX_HASHTAG_COUNT = 5;
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 20;
-const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
+const UNVALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const maxСommentFieldLength = 140;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -82,35 +80,35 @@ const onFileInputChange = () => {
 };
 
 //Валидации формы
-const startsWithHash = (string) => string[0] === '#';
+const prepareHashtags = (value) => value.toLowerCase().trim().replace(/\s+/g, ' ').split(' ');
+const validateHashtags = (value) => {
+  const hashtags = prepareHashtags(value);
+  const hashTagsRegularityCheck = hashtags.some((hashtag) => !UNVALID_SYMBOLS.test(hashtag));
+  return !hashTagsRegularityCheck || value === '';
+};
 
-const hasValidLength = (string) =>
-  string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
+pristine.addValidator(
+  hashtagField,
+  validateHashtags,
+  ErrorMessage.INVALID_HASHTAG
+);
 
-const hasValidSymbols = (string) => !UNVALID_SYMBOLS.test(string.slice(1));
+const validateHashtagsNumber = (value) => {
+  const hashtags = prepareHashtags(value);
+  return hashtags.length <= MAX_HASHTAG_COUNT;
+};
 
-const isValidTag = (tag) =>
-  startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
+pristine.addValidator(
+  hashtagField,
+  validateHashtagsNumber,
+  ErrorMessage.HASHTAG_COUNT
+);
 
-const hasValidCount = (tags) => tags.length <= MAX_HASHTAG_COUNT;
 
 const hasUniqueTags = (tags) => {
   const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
-const validateTagsHasValidCount = (value) => {
-  const tags = value
-    .trim()
-    .split(' ')
-    .filter((tag) => tag.trim().length);
-  return hasValidCount(tags);
-};
-
-pristine.addValidator(
-  hashtagField,
-  validateTagsHasValidCount,
-  ErrorMessage.HASHTAG_COUNT
-);
 
 const validateTagsHasUniqueTags = (value) => {
   const tags = value
@@ -124,20 +122,6 @@ pristine.addValidator(
   hashtagField,
   validateTagsHasUniqueTags,
   ErrorMessage.DUPLICATE_HASHTAGS
-);
-
-const validateTagsIsValidTag = (value) => {
-  const tags = value
-    .trim()
-    .split(' ')
-    .filter((tag) => tag.trim().length);
-  return tags.every(isValidTag);
-};
-
-pristine.addValidator(
-  hashtagField,
-  validateTagsIsValidTag,
-  ErrorMessage.INVALID_HASHTAG
 );
 
 const blockSubmitButton = () => {
