@@ -1,17 +1,6 @@
 import { resetScale } from './scale-image';
 import { resetEffects } from './effect-image';
 
-const formElement = document.querySelector('.img-upload__form');
-const overlayElement = document.querySelector('.img-upload__overlay');
-const body = document.querySelector('body');
-const cancelButton = document.querySelector('.img-upload__cancel');
-const fileField = document.querySelector('.img-upload__input');
-const hashtagField = document.querySelector('.text__hashtags');
-const commentField = document.querySelector('.text__description');
-const submitButton = formElement.querySelector('.img-upload__submit');
-const photoPreview = document.querySelector('.img-upload__preview img');
-const effectsPreviews = document.querySelectorAll('.effects__preview');
-
 const MAX_HASHTAG_COUNT = 5;
 const UNVALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const maxСommentFieldLength = 140;
@@ -24,6 +13,16 @@ const ErrorMessage = {
   MAX_LENGTH_COMMENTS: `Длина комментария больше ${maxСommentFieldLength} символов`
 };
 
+const formElement = document.querySelector('.img-upload__form');
+const overlayElement = document.querySelector('.img-upload__overlay');
+const body = document.querySelector('body');
+const cancelButton = document.querySelector('.img-upload__cancel');
+const fileField = document.querySelector('.img-upload__input');
+const hashtagField = document.querySelector('.text__hashtags');
+const commentField = document.querySelector('.text__description');
+const submitButton = formElement.querySelector('.img-upload__submit');
+const photoPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
