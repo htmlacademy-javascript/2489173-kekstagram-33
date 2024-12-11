@@ -8,12 +8,6 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const checkStringLength = (string, length) => string.length <= length;
-
-
-const getRandomArrayElement = (array) =>
-  array[getRandomPositiveInteger(0, array.length - 1)];
-
 const showAlert = (message) => {
   const alert = document.createElement('div');
   alert.style.position = 'absolute';
@@ -43,8 +37,6 @@ const debounce = (callback, timeoutDelay = DEBOUNCE_TIME) => {
 
 export {
   getRandomPositiveInteger,
-  checkStringLength,
-  getRandomArrayElement,
   showAlert,
   debounce
 };
